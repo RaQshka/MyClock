@@ -21,7 +21,7 @@ bool isAlarmOn = false;
 long long modeTimer;
 bool isRolling = false;
 struct TimeBytes{
-  byte hour, min, sec;
+  byte hour = 0, min =0, sec = 0;
   TimeBytes(byte hour, byte min, byte sec){
     this->hour = hour;
     this->min = min;
@@ -95,14 +95,17 @@ void SetAlarm(String time){
   alarmString = time;
 }
 
-// void SetAlarm(byte hour, byte min, byte sec){
-//   if(hour <0||hour>23 ||min<0||min>59||sec<0||sec>59){
-//     Serial.println("Wrong time on alarm");
-//     return;
-//   }
-//   alarmString = String(hour) + ":"+ String(min)+ ":"+ String(sec);
-  
-// }
+String FormatTimeFromBytes(byte hour, byte min, byte sec){
+  if(hour <0||hour>23 ||min<0||min>59||sec<0||sec>59){
+    Serial.println("Wrong time on alarm");
+    return GetTime();
+  }
+  String h = hour/10==0?"0"+String(hour):String(hour);
+  String m = min/10==0?"0"+String(min):String(min);
+  String s = sec/10==0?"0"+String(sec):String(sec);
+  String result = h + ":"+ m+ ":"+ s;
+  return result;
+}
 
 
 bool CheckAnyButton(){
